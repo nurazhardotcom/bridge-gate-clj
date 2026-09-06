@@ -1,0 +1,28 @@
+;; Copy to config.edn and fill in. Precedence: defaults < config.edn < env vars < CLI flags.
+;; config.edn itself is git-ignored (may hold secrets); commit only this example file.
+{:cyberark-mode :ccp
+ :cyberark-base-url "https://cyberark-ccp.example.com"
+ :cyberark-app-id "BridgeGateApp"
+ :cyberark-safe "CI-CD-Safe"
+ :cyberark-object "deploy-svc-account"
+ ;; Conjur alternative:
+ ;; :cyberark-mode :conjur
+ ;; :conjur-appliance-url "https://conjur.example.com"
+ ;; :conjur-account "default"
+ ;; :conjur-authn-login "host/bridge-gate/ci"
+ ;; :conjur-api-key "REPLACE-ME"
+ ;; :conjur-secret-var "ci/deploy/api-key"
+ :tenable-mode :tenable-io
+ :tenable-base-url "https://cloud.tenable.com"
+ :tenable-access-key "REPLACE-ME"
+ :tenable-secret-key "REPLACE-ME"
+ ;; Use ONE of these for Tenable.io scan sourcing:
+ ;; :tenable-scan-id 123
+ ;; :tenable-template-uuid "ad629e16-03b6-8c1d-cef6-ef8c59e83319"
+ ;; Tenable.sc alternative:
+ ;; :tenable-mode :tenable-sc
+ ;; :tenable-base-url "https://tenable-sc.example.com"
+ ;; :tenable-access-key "sc-username"
+ ;; :tenable-secret-key "sc-password"
+ ;; :tenable-scan-id 7
+ }

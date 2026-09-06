@@ -1,0 +1,11 @@
+;; MAS TRM Deployment Gate — evaluated policy spec (source of truth).
+;; Mirrored for humans in policies/mas_trm.rego (reference only, not parsed).
+{:name "MAS TRM Deployment Gate"
+ :version "0.1.0"
+ :description "Block CI/CD infrastructure deployment on critical/high findings, blocked plugins, or missing fields."
+ :rules {:max-criticals 0
+         :max-highs 0
+         :max-mediums 50
+         :max-severity :high
+         :blocked-plugins #{10001 20002}
+         :required-fields [:host :plugin-id :severity]}}

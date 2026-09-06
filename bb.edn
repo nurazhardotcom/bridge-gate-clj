@@ -1,0 +1,27 @@
+{:paths ["src" "policies"]
+
+ :tasks
+ {test
+  {:doc "Run the clojure.test suite (offline, mock-based, no network)"
+   :extra-paths ["test"]
+   :task (do (require 'bridge.cyberark-test 'bridge.tenable-test 'bridge.policy-test)
+             (let [{:keys [fail error]}
+                   (clojure.test/run-tests 'bridge.cyberark-test
+                                           'bridge.tenable-test
+                                           'bridge.policy-test)]
+               (System/exit (if (zero? (+ fail error)) 0 1))))}
+
+  cyberark-auth
+  {:doc "Fetch a short-lived credential via CyberArk (try --mock for offline mode)"
+   :task (do (require 'bridge.core)
+             (apply (deref (resolve 'bridge.core/-main)) "cyberark-auth" *command-line-args*))}
+
+  tenable-scan
+  {:doc "Trigger a Tenable scan and save normalized findings (try --mock for offline mode)"
+   :task (do (require 'bridge.core)
+             (apply (deref (resolve 'bridge.core/-main)) "tenable-scan" *command-line-args*))}
+
+  enforce-gate
+  {:doc "Evaluate findings against the policy gate (exit 0 pass / 1 violation / 2 error)"
+   :task (do (require 'bridge.core)
+             (apply (deref (resolve 'bridge.core/-main)) "enforce-gate" *command-line-args*))}}}

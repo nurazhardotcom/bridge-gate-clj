@@ -1,0 +1,8 @@
+.bridge/
+.cpcache/
+.lsp/
+.calva/
+*.class
+*~
+.DS_Store
+config.edn
