@@ -1,8 +1,9 @@
 .bridge/
 .cpcache/
-.lsp/
+.lsp/.cache/
+.clj-kondo/.cache/
 .calva/
 *.class
 *~
 .DS_Store
-config.edn
+/config.edn

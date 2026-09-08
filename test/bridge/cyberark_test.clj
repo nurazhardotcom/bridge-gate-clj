@@ -1,5 +1,6 @@
 (ns bridge.cyberark-test
   (:require [clojure.test :refer [deftest is testing]]
+            [clojure.string :as str]
             [bridge.cyberark :as ca]))
 
 (def ccp-cfg
@@ -31,7 +32,7 @@
       (is (= "s3cret!" (:secret cred)))
       (is (= "2030-01-01" (:expiry cred)))
       (is (= :get (:method @seen)))
-      (is (clojure.string/ends-with? (:uri @seen) "/AIMWebService/api/Accounts"))
+      (is (str/ends-with? (:uri @seen) "/AIMWebService/api/Accounts"))
       (is (= {"AppID" "App1" "Safe" "Safe1" "Object" "Obj1"} (:query-params @seen))))))
 
 (deftest ccp-failure-throws
@@ -52,7 +53,7 @@
     (let [calls (atom [])
           client (fn [req]
                    (swap! calls conj req)
-                   (if (clojure.string/ends-with? (:uri req) "/authenticate")
+                   (if (str/ends-with? (:uri req) "/authenticate")
                      {:status 200 :body "TOKEN-ABC"}
                      {:status 200 :body " siêu-secret "}))
           cred (ca/fetch-credential conjur-cfg client)]

@@ -1,0 +1,6 @@
+;; clojure-lsp project configuration — https://clojure-lsp.io/settings/
+;; Classpath is discovered from bb.edn via `bb print-deps --format classpath`
+;; (clojure-lsp has native babashka project support). :source-paths below
+;; mirrors bb.edn :paths plus the test extra-path so lint/analysis covers all.
+{:source-paths #{"src" "policies" "test"}
+ :linters {:clojure-lsp/unused-public-var {:level :warning}}}

@@ -1,5 +1,6 @@
 (ns bridge.tenable-test
   (:require [clojure.test :refer [deftest is testing are]]
+            [clojure.string :as str]
             [bridge.tenable :as tn]
             [cheshire.core :as json]))
 
@@ -59,11 +60,11 @@
         estates (atom ["loading" "ready"])]
     (fn [{:keys [method uri]}]
       (cond
-        (clojure.string/ends-with? uri "/launch")
+        (str/ends-with? uri "/launch")
         {:status 200 :body "{\"scan_uuid\":\"uuid-42\"}"}
 
-        (clojure.string/includes? uri "/export/")
-        (if (clojure.string/ends-with? uri "/status")
+        (str/includes? uri "/export/")
+        (if (str/ends-with? uri "/status")
           {:status 200 :body (str "{\"status\":\"" (first (swap! estates rest)) "\"}")}
           {:status 200 :body (json/generate-string
                               [{"plugin_id" 10001 "plugin_name" "Bad Plugin"
@@ -71,7 +72,7 @@
                                {"plugin_id" 10180 "plugin_name" "Ping"
                                 "severity" 0 "hostname" "10.0.0.9" "port" 0}])})
 
-        (clojure.string/ends-with? uri "/export")
+        (str/ends-with? uri "/export")
         {:status 200 :body "{\"file\":7}"}
 
         :else
@@ -92,7 +93,7 @@
 (deftest tenable-io-poll-timeout
   (testing "scan that never completes throws after max attempts"
     (let [client (fn [{:keys [uri]}]
-                   (if (clojure.string/ends-with? uri "/launch")
+                   (if (str/ends-with? uri "/launch")
                      {:status 200 :body "{\"scan_uuid\":\"u\"}"}
                      {:status 200 :body "{\"info\":{\"status\":\"running\"}}"}))]
       (is (thrown? clojure.lang.ExceptionInfo
@@ -116,11 +117,11 @@
                    (swap! seen conj req)
                    (let [uri (:uri req)]
                      (cond
-                       (clojure.string/ends-with? uri "/rest/token")
+                       (str/ends-with? uri "/rest/token")
                        {:status 200 :body "{\"response\":{\"token\":\"TOK\"}}"}
-                       (clojure.string/ends-with? uri "/launch")
+                       (str/ends-with? uri "/launch")
                        {:status 200 :body "{\"response\":{\"scanResultID\":99}}"}
-                       (clojure.string/starts-with? uri "https://sc.example.com/rest/scanResult/")
+                       (str/starts-with? uri "https://sc.example.com/rest/scanResult/")
                        {:status 200 :body (str "{\"response\":{\"status\":\""
                                                 (let [s (first @states)] (swap! states rest) s)
                                                 "\"}}")}
