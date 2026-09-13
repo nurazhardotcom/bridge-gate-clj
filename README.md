@@ -1,5 +1,7 @@
 # bridge-gate-clj
 
+> **Status:** Active — maintained. Unofficial project, no affiliation with CyberArk/Tenable; synthetic fixtures only.
+
 **Enterprise Compliance-as-Code Engine** — a single, fast [Babashka](https://babashka.org) CLI that orchestrates
 CyberArk dynamic credential fetching, triggers a targeted Tenable scan, and runs a pure-Clojure policy check
 before permitting a CI/CD infrastructure deployment.
