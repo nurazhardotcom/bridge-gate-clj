@@ -2,6 +2,17 @@
 
 > **Status:** Active — maintained. Unofficial project, no affiliation with CyberArk/Tenable; synthetic fixtures only.
 
+> **Enterprise IAM/PAM & Policy-as-Code automation component.**
+> Enforces least-privilege access, automated compliance checks, and
+> privileged session governance for cloud and enterprise directory platforms.
+
+* **Target environment:** Enterprise hybrid / CyberArk Vault & Conjur /
+  Active Directory / OPA (reference policy in `policies/mas_trm.rego`).
+* **Regulatory focus:** MAS TRM / SG PDPA compliance-as-code
+  (`policies/mas_trm.edn` is the enforced gate; the `.rego` is reference).
+* **Core function:** Replaces manual privilege auditing and risky IAM drift
+  with deterministic, version-controlled policy evaluation in CI.
+
 **Enterprise Compliance-as-Code Engine** — a single, fast [Babashka](https://babashka.org) CLI that orchestrates
 CyberArk dynamic credential fetching, triggers a targeted Tenable scan, and runs a pure-Clojure policy check
 before permitting a CI/CD infrastructure deployment.
